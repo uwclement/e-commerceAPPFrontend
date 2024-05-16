@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #d2c9ff;
+        }
+
+        .card {
+            border-radius: 15px;
+        }
+
+        .bg-grey {
+            background-color: #f8f9fa;
+        }
+
+        .btn-dark {
+            background-color: #333;
+            border-color: #333;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="fragment/user-nav" class="w-100"></div>
+<section class="h-100 h-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12">
+                <div class="card card-registration card-registration-2">
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                            <div class="col-lg-8">
+                                <div class="p-5">
+                                    <div class="d-flex justify-content-between align-items-center mb-5">
+                                        <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                                        <h6 class="mb-0 text-muted" th:text="${'Items: ' + #lists.size(cartItems)}"></h6>
+                                    </div>
+                                    <hr class="my-4">
+                                    <div th:each="cartItem : ${cartItems}">
+                                        <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                                <img th:src="@{'/products/image/' + ${cartItem.product.id}}" class="img-fluid rounded-3" alt="Product Image">
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                                <h6 class="text-black mb-0" th:text="${cartItem.product.name}"></h6>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                <form th:action="@{/cart/update/{cartItemId}(cartItemId=${cartItem.id})}" method="post">
+                                                    <input type="number" name="quantity" th:value="${cartItem.quantity}" min="1" max="10" required class="form-control form-control-sm">
+                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                <h6 class="mb-0" th:text="${'€' + cartItem.totalPrice}"></h6>
+                                            </div>
+                                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                                <a th:href="@{/cart/delete/{cartId}(cartId=${cartItem.id})}" class="text-muted"><i class="fas fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                        <hr class="my-4">
+                                    </div>
+                                    <div class="pt-5">
+                                        <h6 class="mb-0"><a href="/home" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 bg-grey">
+                                <div class="p-5">
+                                    <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                                    <hr class="my-4">
+                                    <div class="d-flex justify-content-between mb-4">
+                                        <h5 class="text-uppercase">Items <span th:text="${#lists.size(cartItems)}"></span></h5>
+                                        <h5 th:text="${'€' + session.Amount}"></h5>
+                                    </div>
+                                    <h5 class="text-uppercase mb-3">Shipping</h5>
+                                    <div class="mb-4 pb-2">
+                                        <select data-mdb-select-init>
+                                            <option value="1">Standard-Delivery- $5.00</option>
+                                        </select>
+                                    </div>
+                                    <h5 class="text-uppercase mb-3">Give code</h5>
+                                    <div class="mb-5">
+                                        <div data-mdb-input-init class="form-outline">
+                                            <input type="text" id="form3Examplea2" class="form-control form-control-lg" required>
+                                            <label class="form-label" for="form3Examplea2">Enter your code</label>
+                                        </div>
+                                    </div>
+                                    <hr class="my-4">
+                                    <div class="d-flex justify-content-between mb-5">
+                                        <h5 class="text-uppercase">Total price</h5>
+                                        <h5 th:text="${'€' + session.Amount}"></h5>
+                                    </div>
+                                    <a href="/cart/checkout" class="btn btn-dark btn-block btn-lg" th:onclick="return confirm('Are you sure you want to checkout?')">Checkout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+    </symbol>
+    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+    </symbol>
+    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+    </symbol>
+</svg>
+<!-- Add Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
+<footer th:insert="fragment/footer"></footer>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Order Status</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div th:insert="fragment/admin-nav" class="table align-middle mb-0"></div>
+<div class="container">
+    <h1>Edit Order Status</h1>
+    <form th:action="@{/orders/{orderId}/update-status(orderId=${order.id})}" method="post">
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select id="status" name="newStatus" class="form-control">
+                <option value="Pending" th:selected="${order.status == 'Pending'}">Pending</option>
+                <option value="Accepted" th:selected="${order.status == 'Accepted'}">Accepted</option>
+                <option value="Denied" th:selected="${order.status == 'Denied'}">Denied</option>
+                <option value="Shipped" th:selected="${order.status == 'Shipped'}">Shipped</option>
+                <option value="Delivered" th:selected="${order.status == 'Delivered'}">Delivered</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Status</button>
+    </form>
+</div>
+<!-- Add Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
