@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .table thead th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .status-accepted {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-denied {
+            color: red;
+            font-weight: bold;
+        }
+
+        .status-delivered {
+            color: blue;
+            font-weight: bold;
+        }
+
+        .status-shipped {
+            color: orange;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="fragment/user-nav" class="table align-middle mb-0"></div>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Orders</h1>
+<!--    <div th:if="${message}" class="alert alert-success" role="alert" th:text="${message}"></div>-->
+<!--    <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>-->
+    <table class="table table-striped">
+        <thead>
+        <tr>
+
+            <th>Order ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>Status</th>
+<!--            <th>Actions</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
+            <td th:text="${order.product.name}"></td>
+            <td th:text="${order.quantity}"></td>
+            <td th:text="${order.totalPrice}"></td>
+            <td th:class="${order.status.toLowerCase() == 'accepted' ? 'status-accepted' : (order.status.toLowerCase() == 'denied' ? 'status-denied' : (order.status.toLowerCase() == 'delivered' ? 'status-delivered' : (order.status.toLowerCase() == 'shipped' ? 'status-shipped' : '')))}">
+                <span th:text="${order.status}"></span>
+            </td>
+<!--            <td>-->
+<!--                    <a th:if="${order.status.toLowerCase() == 'pending'}" th:href="@{home/orders/{orderId}/cancel(orderId=${order.id})}" class="btn btn-danger">Cancel Order</a>-->
+<!--            </td>-->
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Add Bootstrap JS -->
+<div th:insert="fragment/footer.html" ></div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

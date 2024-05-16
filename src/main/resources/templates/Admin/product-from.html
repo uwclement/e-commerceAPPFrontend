@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<div th:insert="fragment/admin-nav" class="table align-middle mb-0"></div>
+<div class="w-75  ">
+<h1>Product Form</h1>
+<form th:action="@{/products/save}" th:object="${product}" method="post"   class="row g-3">
+    <input type="hidden" th:field="*{id}">
+    <div class="col-md-6">
+        <label for="name" class="form-label">Product Name</label>
+        <input type="text" id="name" name="name"  th:field="*{name}" class="form-control" >
+    </div>
+    <div class="col-md-6">
+        <label for="price" class="form-label">Price</label>
+        <input type="number" id="price" name="price" th:field="*{price}" class="form-control" >
+    </div>
+    <div class="col-12">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" class="form-control" id="description" name="description" th:field="*{description}" placeholder="Product Description">
+    </div>
+
+    <div class="col-md-6">
+        <label for="imageFile" class="form-label">Image</label>
+        </br>
+        <input type="file" class="form-control" id="imageFile" th:field="*{image}" accept="image/">
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+</form>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous">
+
+    const imageInput = document.getElementById("imageInput");
+    const imageNameInput = document.getElementById("imageNameInput");
+
+    imageInput.addEventListener("change", function() {
+        const ImageIn = imageInput.files[0];
+        if (ImageIn) {
+            imageNameInput.value = ImageIn.name;
+        } else {
+            imageNameInput.value = ImageIn.name;
+        }
+    });
+
+</script>
+
+</body>
+</html>
+
